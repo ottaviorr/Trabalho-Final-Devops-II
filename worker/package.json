@@ -1,0 +1,13 @@
+{
+  "name": "financas-worker",
+  "version": "1.0.0",
+  "private": true,
+  "main": "worker.js",
+  "scripts": {
+    "start": "node worker.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "mongodb": "^6.12.0"
+  }
+}

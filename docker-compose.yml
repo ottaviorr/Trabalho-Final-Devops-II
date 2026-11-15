@@ -1,0 +1,49 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    # Sem "ports": o banco só é acessível pela rede interna (D2)
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - rede-financas
+
+  api:
+    build: ./api
+    image: ${DOCKERHUB_USER}/financas-api:v1
+    restart: unless-stopped
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+    depends_on:
+      - mongo
+    networks:
+      - rede-financas
+
+  worker:
+    build: ./worker
+    image: ${DOCKERHUB_USER}/financas-worker:v1
+    restart: unless-stopped
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+      LIMITE_DESPESAS: ${LIMITE_DESPESAS}
+    depends_on:
+      - mongo
+    networks:
+      - rede-financas
+
+  frontend:
+    build: ./frontend
+    image: ${DOCKERHUB_USER}/financas-frontend:v1
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
+    networks:
+      - rede-financas
+
+networks:
+  rede-financas:
+
+volumes:
+  mongo-data:
