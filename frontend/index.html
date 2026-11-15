@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finanças da Família</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Finanças da Família</h1>
+    <label>Mês: <input type="month" id="mes"></label>
+  </header>
+
+  <nav>
+    <button data-tela="lancamentos" class="ativo">Lançamentos</button>
+    <button data-tela="categorias">Categorias</button>
+    <button data-tela="saldo">Saldo do mês</button>
+    <button data-tela="por-categoria">Despesas por categoria</button>
+    <button data-tela="relatorio">Relatório</button>
+    <button data-tela="alertas">Alertas</button>
+  </nav>
+
+  <p id="mensagem"></p>
+
+  <main>
+    <section id="lancamentos" class="tela ativa">
+      <h2 id="titulo-form-lanc">Novo lançamento</h2>
+      <form id="form-lanc">
+        <input name="descricao" placeholder="Descrição" required>
+        <input name="valor" type="number" step="0.01" min="0.01" placeholder="Valor" required>
+        <select name="categoria_id" id="select-categoria" required></select>
+        <input name="data" type="date" required>
+        <button type="submit" id="btn-salvar-lanc">Registrar</button>
+        <button type="button" id="btn-cancelar-lanc" hidden>Cancelar</button>
+      </form>
+      <h2>Lançamentos do mês</h2>
+      <table>
+        <thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th><th>Valor</th><th></th></tr></thead>
+        <tbody id="tabela-lanc"></tbody>
+      </table>
+    </section>
+
+    <section id="categorias" class="tela">
+      <h2>Nova categoria</h2>
+      <form id="form-cat">
+        <input name="nome" placeholder="Nome" required>
+        <select name="tipo">
+          <option value="despesa">Despesa</option>
+          <option value="receita">Receita</option>
+        </select>
+        <button type="submit">Cadastrar</button>
+      </form>
+      <h2>Categorias</h2>
+      <table>
+        <thead><tr><th>Nome</th><th>Tipo</th><th></th></tr></thead>
+        <tbody id="tabela-cat"></tbody>
+      </table>
+    </section>
+
+    <section id="saldo" class="tela">
+      <h2>Saldo do mês</h2>
+      <div class="cartoes">
+        <div class="cartao receita">Receitas<strong id="saldo-receitas"></strong></div>
+        <div class="cartao despesa">Despesas<strong id="saldo-despesas"></strong></div>
+        <div class="cartao">Saldo<strong id="saldo-saldo"></strong></div>
+      </div>
+    </section>
+
+    <section id="por-categoria" class="tela">
+      <h2>Total de despesas por categoria</h2>
+      <table>
+        <thead><tr><th>Categoria</th><th>Total</th></tr></thead>
+        <tbody id="tabela-por-cat"></tbody>
+      </table>
+    </section>
+
+    <section id="relatorio" class="tela">
+      <h2>Relatório do mês <span id="rel-mes"></span></h2>
+      <table>
+        <tbody>
+          <tr><th>Receitas</th><td id="rel-receitas"></td></tr>
+          <tr><th>Despesas</th><td id="rel-despesas"></td></tr>
+          <tr><th>Saldo</th><td id="rel-saldo"></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="alertas" class="tela">
+      <h2>Alertas de limite de gastos</h2>
+      <table>
+        <thead><tr><th>Data</th><th>Mensagem</th></tr></thead>
+        <tbody id="tabela-alertas"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>Versão __VERSAO__</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
