@@ -1,0 +1,12 @@
+# Cluster com 1 nó de controle e 2 nós de trabalho (K1)
+# Criar: kind create cluster --name financas --config k8s/cluster/kind-config.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    # Libera a porta do NodePort do frontend no computador (http://localhost:30080)
+    extraPortMappings:
+      - containerPort: 30080
+        hostPort: 30080
+  - role: worker
+  - role: worker

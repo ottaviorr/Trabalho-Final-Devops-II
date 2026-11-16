@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+spec:
+  # Exatamente 1 réplica: com 2, cada uma faria a verificação e o alerta sairia duplicado
+  replicas: 1
+  # Recreate: nunca existem dois workers ao mesmo tempo, nem durante uma atualização
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+        - name: worker
+          image: seu-usuario/financas-worker:v1
+          env:
+            - name: MONGO_URL
+              value: mongodb://mongo:27017
+            - name: LIMITE_DESPESAS
+              value: "3000"
+---
+# O worker não recebe requisições; o Service é headless (sem IP e sem porta)
+apiVersion: v1
+kind: Service
+metadata:
+  name: worker
+spec:
+  clusterIP: None
+  selector:
+    app: worker
